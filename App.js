@@ -7,92 +7,9 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableHighlight,
-  Image,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TextInput, Button, Image, StyleSheet} from 'react-native';
 import axios from 'axios';
-// import CameraScreen from './CameraScreen';
-import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-picker';
-
-// class CameraScreen extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       showPhotoGallery: false,
-//       photoArray: [],
-//     };
-//   }
-//   async getPhotosFromGallery() {
-//     console.log('in func');
-//     let result = await CameraRoll.getPhotos({first: 10000});
-//     let photoArray = result.edges;
-//     this.setState({
-//       showPhotoGallery: true,
-//       photoArray: photoArray,
-//     });
-//     console.log(this.state.photoArray[0]);
-//   }
-//   render() {
-//     if (this.state.showPhotoGallery) {
-//       let uri = this.state.photoArray[0].uri;
-//       return <Image source={{uri: uri}} />;
-//     }
-//     return (
-//       <View>
-//         <TouchableHighlight onPress={() => this.getPhotosFromGallery()}>
-//           <Text>Add Photo</Text>
-//         </TouchableHighlight>
-//       </View>
-//     );
-//   }
-// }
-
-// class Camera extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {photos: []};
-//   }
-//   _handleButtonPress = () => {
-//     CameraRoll.getPhotos({
-//       first: 20,
-//       assetType: 'Photos',
-//     })
-//       .then((r) => {
-//         this.setState({photos: r.edges});
-//       })
-//       .catch((err) => {
-//         //Error Loading Images
-//       });
-//   };
-//   render() {
-//     return (
-//       <View>
-//         <Button title="Load Images" onPress={this._handleButtonPress} />
-//         <ScrollView>
-//           {this.state.photos.map((p, i) => {
-//             return (
-//               <Image
-//                 key={i}
-//                 style={{
-//                   width: 300,
-//                   height: 100,
-//                 }}
-//                 source={{uri: p.node.image.uri}}
-//               />
-//             );
-//           })}
-//         </ScrollView>
-//       </View>
-//     );
-//   }
-// }
 
 class App extends React.Component {
   constructor() {
@@ -112,10 +29,10 @@ class App extends React.Component {
     this.setState({entries: res.data});
   }
 
-  onChange(e) {
-    let name = e.target._internalFiberInstanceHandleDEV.memoizedProps.name;
+  onChange(event) {
+    let name = event.target._internalFiberInstanceHandleDEV.memoizedProps.name;
     this.setState({
-      [name]: e.nativeEvent.text,
+      [name]: event.nativeEvent.text,
     });
   }
   async post() {
@@ -140,12 +57,8 @@ class App extends React.Component {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
       } else {
-        console.log('in else');
         this.setState({image: response.uri});
-        console.log(this.state);
       }
     });
   }
@@ -153,17 +66,17 @@ class App extends React.Component {
     return (
       <>
         <View style={{marginTop: 50, marginLeft: 20}}>
-          <Text style={{fontSize: 30}}>TEST APP</Text>
+          <Text style={{fontSize: 30}}>Meal Log</Text>
         </View>
         <TextInput
-          style={{margin: 20, borderWidth: 0.5, padding: 4}}
+          style={styles.input}
           placeholder="Title"
           name="title"
           type="text"
           onChange={this.onChange}
           value={this.state.title}></TextInput>
         <TextInput
-          style={{margin: 20, borderWidth: 0.5, padding: 4}}
+          style={styles.input}
           placeholder="Description"
           name="description"
           type="text"
@@ -192,5 +105,13 @@ class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  input: {
+    margin: 20,
+    borderWidth: 0.5,
+    padding: 4,
+  },
+});
 
 export default App;
