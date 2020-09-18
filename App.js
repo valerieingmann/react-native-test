@@ -176,10 +176,15 @@ class App extends React.Component {
             <View key={entry.id}>
               <Text style={{fontSize: 26, margin: 4}}>{entry.title}</Text>
               <Text style={{fontSize: 16, margin: 4}}>{entry.description}</Text>
-              <Image
-                style={{height: 40, width: 40}}
-                source={{uri: entry.image}}
-              />
+              {entry.image ? (
+                <Image
+                  style={{
+                    height: 100,
+                    width: 200,
+                  }}
+                  source={{uri: entry.image}}
+                />
+              ) : null}
             </View>
           ))}
         </View>
